@@ -56,6 +56,16 @@ public class ScenicOrderController {
     }
 
     /**
+     * 管理员获取主页统计数据
+     *
+     * @return 结果
+     */
+    @GetMapping("/admin/homeData")
+    public R homeDataByAdmin() {
+        return R.ok(scenicOrderService.homeDataByAdmin());
+    }
+
+    /**
      * 查询本月景点流量排行榜
      *
      * @param date 统计日期

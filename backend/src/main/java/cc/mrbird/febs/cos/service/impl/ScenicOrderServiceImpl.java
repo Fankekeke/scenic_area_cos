@@ -2,14 +2,15 @@ package cc.mrbird.febs.cos.service.impl;
 
 import cc.mrbird.febs.cos.dao.OrderInfoMapper;
 import cc.mrbird.febs.cos.dao.ScenicInfoMapper;
+import cc.mrbird.febs.cos.entity.BulletinInfo;
 import cc.mrbird.febs.cos.entity.OrderInfo;
 import cc.mrbird.febs.cos.entity.ScenicInfo;
 import cc.mrbird.febs.cos.entity.ScenicOrder;
 import cc.mrbird.febs.cos.dao.ScenicOrderMapper;
-import cc.mrbird.febs.cos.service.IScenicInfoService;
-import cc.mrbird.febs.cos.service.IScenicOrderService;
+import cc.mrbird.febs.cos.service.*;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -36,6 +37,12 @@ public class ScenicOrderServiceImpl extends ServiceImpl<ScenicOrderMapper, Sceni
     private final OrderInfoMapper orderInfoMapper;
 
     private final IScenicInfoService scenicInfoService;
+
+    private final IHotelInfoService hotelInfoService;
+
+    private final IUserInfoService userInfoService;
+
+    private final IBulletinInfoService bulletinInfoService;
 
     @Override
     public IPage<LinkedHashMap<String, Object>> scenicInfoByPage(Page page, ScenicOrder scenicOrder) {
@@ -308,6 +315,55 @@ public class ScenicOrderServiceImpl extends ServiceImpl<ScenicOrderMapper, Sceni
             saleTypeRankMapCopy.put(level, saleTypeRankMap.get(level) == null ? 0 : saleTypeRankMap.get(level));
         }
         result.put("saleTypeRankMapCopy", saleTypeRankMapCopy);
+        return result;
+    }
+
+    /**
+     * 管理员获取主页统计数据
+     *
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> homeDataByAdmin() {
+// 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("orderNum", 0);
+                put("orderPrice", 0);
+                put("userNum", 0);
+                put("hotelNum", 0);
+            }
+        };
+
+        List<ScenicOrder> orderInfoList = this.list(Wrappers.<ScenicOrder>lambdaQuery());
+
+        BigDecimal totalPrice = orderInfoList.stream().map(e -> NumberUtil.mul(e.getPrice(), e.getAmount())).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+        result.put("orderNum", orderInfoList.stream().map(ScenicOrder::getAmount).reduce(Integer::sum));
+        result.put("orderPrice", totalPrice);
+        result.put("userNum", userInfoService.count());
+        result.put("hotelNum", hotelInfoService.count());
+
+        // 本月订单数量
+        List<ScenicOrder> orderMonthList = baseMapper.selectOrderByMonth();
+        result.put("monthOrderNum", CollectionUtil.isEmpty(orderMonthList) ? 0 : orderMonthList.size());
+        BigDecimal orderPrice = orderMonthList.stream().map(e -> NumberUtil.mul(e.getPrice(), e.getAmount())).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+        // 获取本月收益
+        result.put("monthOrderTotal", orderPrice);
+
+        // 本年订单数量
+        List<ScenicOrder> orderYearList = baseMapper.selectOrderByYear();
+        result.put("yearOrderNum", CollectionUtil.isEmpty(orderYearList) ? 0 : orderYearList.size());
+        // 本年总收益
+        BigDecimal orderYearPrice = orderYearList.stream().map(e -> NumberUtil.mul(e.getPrice(), e.getAmount())).filter(Objects::nonNull).reduce(BigDecimal.ZERO, BigDecimal::add);
+        result.put("yearOrderTotal", orderYearPrice);
+
+        // 近十天销售订单统计
+        result.put("orderNumDayList", baseMapper.selectOrderNumWithinDays());
+        // 近十天销售金额统计
+        result.put("priceDayList", baseMapper.selectOrderPriceWithinDays());
+        // 公告信息
+        result.put("bulletinInfoList", bulletinInfoService.list(Wrappers.<BulletinInfo>lambdaQuery()));
+
         return result;
     }
 }

@@ -46,4 +46,11 @@ public interface IScenicOrderService extends IService<ScenicOrder> {
      * @return 结果
      */
     LinkedHashMap<String, Object> selectStoreStatisticsByMonth(String date);
+
+    /**
+     * 管理员获取主页统计数据
+     *
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> homeDataByAdmin();
 }
