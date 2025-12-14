@@ -47,4 +47,7 @@ public interface IEvaluationService extends IService<Evaluation> {
      * @return
      */
     List<LinkedHashMap<String, Object>> getEvaluationByHotel(Integer hotelId);
+
+    // 获取房间评价
+    List<LinkedHashMap<String, Object>> getEvaluationByRoomType(Integer roomTypeId);
 }

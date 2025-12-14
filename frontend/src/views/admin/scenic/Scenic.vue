@@ -1,366 +1,347 @@
 <template>
-  <a-card :bordered="false" class="card-area">
-    <div :class="advanced ? 'search' : null">
-      <!-- 搜索区域 -->
-      <a-form layout="horizontal">
-        <a-row :gutter="15">
-          <div :class="advanced ? null: 'fold'">
-            <a-col :md="6" :sm="24">
-              <a-form-item
-                label="景点名称"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
-                <a-input v-model="queryParams.scenicName"/>
-              </a-form-item>
-            </a-col>
-            <a-col :md="6" :sm="24">
-              <a-form-item
-                label="景区地址"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
-                <a-input v-model="queryParams.address"/>
-              </a-form-item>
-            </a-col>
-          </div>
-          <span style="float: right; margin-top: 3px;">
-            <a-button type="primary" @click="search">查询</a-button>
-            <a-button style="margin-left: 8px" @click="reset">重置</a-button>
-          </span>
-        </a-row>
-      </a-form>
-    </div>
-    <div>
-      <div class="operator">
-        <a-button type="primary" ghost @click="add">新增</a-button>
-        <a-button @click="batchDelete">删除</a-button>
-      </div>
-      <!-- 表格区域 -->
-      <a-table ref="TableInfo"
-               :columns="columns"
-               :dataSource="dataSource"
-               :pagination="pagination"
-               :loading="loading"
-               :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-               :scroll="{ x: 900 }"
-               @change="handleTableChange">
-        <template slot="scenicNameShow" slot-scope="text, record">
-          <a-tooltip>
-            <template slot="title">
-              {{ record.scenicName }}
-            </template>
-            {{ record.scenicName.slice(0, 10) }} ...
-          </a-tooltip>
-        </template>
-        <template slot="addressShow" slot-scope="text, record">
-          <a-tooltip>
-            <template slot="title">
-              {{ record.address }}
-            </template>
-            {{ record.address.slice(0, 10) }} ...
-          </a-tooltip>
-        </template>
-        <template slot="historyShow" slot-scope="text, record">
-          <a-tooltip>
-            <template slot="title">
-              {{ record.history }}
-            </template>
-            {{ record.history.slice(0, 10) }} ...
-          </a-tooltip>
-        </template>
-        <template slot="operation" slot-scope="text, record">
-          <a-icon type="cloud" @click="view(record)" title="查 看" style="margin-right: 15px"></a-icon>
-          <a-icon type="setting" theme="twoTone" twoToneColor="#4a9ff5" @click="edit(record)" title="修改景点"></a-icon>
-        </template>
-      </a-table>
-    </div>
-    <scenic-info
-      :scenicData="scenicView.data"
-      :scenicShow="scenicView.visiable"
-      @close="handlescenicViewClose">
-    </scenic-info>
-    <user-add
-      @close="handleUserAddClose"
-      @success="handleUserAddSuccess"
-      :userAddVisiable="userAdd.visiable">
-    </user-add>
-    <user-edit
-      ref="userEdit"
-      @close="handleUserEditClose"
-      @success="handleUserEditSuccess"
-      :userEditVisiable="userEdit.visiable">
-    </user-edit>
-  </a-card>
+  <div style="padding: 12px;width: 100%">
+    <a-row :gutter="15">
+      <a-col :span="10">
+        <a-card :bordered="false">
+          <a-form :form="form" layout="vertical">
+
+            <a-row :gutter="10">
+              <a-col :span="12">
+                <a-form-item label='景点名称'>
+                  <a-input v-decorator="[
+            'scenicName',
+            { rules: [{ required: true, message: '请输入名称!' }] }
+            ]"/>
+                </a-form-item>
+              </a-col>
+              <a-col :span="12">
+                <a-form-item label='票价'>
+                  <a-input-number style="width: 100%" :min="0" :step="0.1" v-decorator="[
+            'scenicPrice',
+            { rules: [{ required: true, message: '请输入票价!' }] }
+            ]"/>
+                </a-form-item>
+              </a-col>
+              <a-col :span="12">
+                <a-form-item label='所在地'>
+                  <a-input style="width: 70%" v-decorator="[
+            'address'
+            ]"/>
+                  <a-button type="primary" style="width: 30%" @click="showChildrenDrawer">
+                    选择地址
+                  </a-button>
+                </a-form-item>
+              </a-col>
+              <a-col :span="12">
+                <a-form-item label='地区'>
+                  <a-input v-decorator="[
+            'area',
+            ]"/>
+                </a-form-item>
+              </a-col>
+              <a-col :span="24"></a-col>
+              <a-col :span="12">
+                <a-form-item label='热度'>
+                  <a-input v-decorator="[
+            'hot',
+            ]"/>
+                </a-form-item>
+              </a-col>
+              <a-col :span="12">
+                <a-form-item label='景区等级'>
+                  <a-select v-decorator="[
+                'level',
+                ]">
+                    <a-select-option value="4A景区">4A景区</a-select-option>
+                    <a-select-option value="5A景区">5A景区</a-select-option>
+                    <a-select-option value="6A景区">6A景区</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col>
+              <a-col :span="12">
+                <a-form-item label='游量/日'>
+                  <a-input-number style="width: 100%" :min="0" :step="0.1" v-decorator="[
+            'sold',
+            { rules: [{ required: true, message: '请输入游量/日!' }] }
+            ]"/>
+                </a-form-item>
+              </a-col>
+<!--              <a-col :span="12">-->
+<!--                <a-form-item label='外链图片'>-->
+<!--                  <a-input v-decorator="[-->
+<!--            'webImg'-->
+<!--            ]"/>-->
+<!--                </a-form-item>-->
+<!--              </a-col>-->
+              <a-col :span="24">
+                <a-form-item label='历史文化'>
+                  <a-textarea v-decorator="[
+            'history'
+            ]" :rows="4"/>
+                </a-form-item>
+              </a-col>
+              <a-col :span="24">
+                <a-form-item label='图册' v-bind="formItemLayout">
+                  <a-upload
+                    name="avatar"
+                    action="http://127.0.0.1:9527/file/fileUpload/"
+                    list-type="picture-card"
+                    :file-list="fileList"
+                    @preview="handlePreview"
+                    @change="picHandleChange"
+                  >
+                    <div v-if="fileList.length < 8">
+                      <a-icon type="plus" />
+                      <div class="ant-upload-text">
+                        Upload
+                      </div>
+                    </div>
+                  </a-upload>
+                  <a-modal :visible="previewVisible" :footer="null" @cancel="handleCancel">
+                    <img alt="example" style="width: 100%" :src="previewImage" />
+                  </a-modal>
+                </a-form-item>
+              </a-col>
+            </a-row>
+
+          </a-form>
+          <a-button @click="handleSubmit" type="primary" :loading="loading">修改</a-button>
+          <drawerMap :childrenDrawerShow="childrenDrawer" @handlerClosed="handlerClosed"></drawerMap>
+        </a-card>
+      </a-col>
+      <a-col :span="14">
+        <div id="areas" style="width: 100%;height: 700px;box-shadow: 0 0 0 10px white;"></div>
+      </a-col>
+    </a-row>
+  </div>
 </template>
 
 <script>
-import DeptInputTree from '../../system/dept//DeptInputTree'
-import RangeDate from '@/components/datetime/RangeDate'
-import ScenicInfo from './ScenicView'
-import UserAdd from './ScenicAdd'
-import UserEdit from './ScenicEdit'
+import {mapState} from 'vuex'
+import baiduMap from '@/utils/map/baiduMap'
+import drawerMap from '@/utils/map/searchmap/drawerMap'
+import moment from 'moment'
+moment.locale('zh-cn')
 
+const plainOptions = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+const formItemLayout = {
+  labelCol: {span: 24},
+  wrapperCol: {span: 24}
+}
+function getBase64 (file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+  })
+}
 export default {
-  name: 'User',
-  components: {UserAdd, UserEdit, ScenicInfo, DeptInputTree, RangeDate},
+  name: 'merchant',
   data () {
     return {
-      advanced: false,
-      scenicView: {
-        visiable: false,
-        data: null
-      },
-      userAdd: {
-        visiable: false
-      },
-      userEdit: {
-        visiable: false
-      },
-      queryParams: {},
-      filteredInfo: null,
-      sortedInfo: null,
-      paginationInfo: null,
-      dataSource: [],
-      selectedRowKeys: [],
+      checkedList: [],
+      indeterminate: true,
+      checkAll: false,
+      plainOptions,
+      rowId: null,
+      mapId: 'area',
+      cardShow: false,
+      localPoint: {},
+      stayAddress: '',
+      local: '',
+      localData: [],
+      formItemLayout,
+      childrenDrawer: false,
+      form: this.$form.createForm(this),
+      userId: '',
       loading: false,
-      pagination: {
-        pageSizeOptions: ['10', '20', '30', '40', '100'],
-        defaultCurrent: 1,
-        defaultPageSize: 10,
-        showQuickJumper: true,
-        showSizeChanger: true,
-        showTotal: (total, range) => `显示 ${range[0]} ~ ${range[1]} 条记录，共 ${total} 条记录`
-      }
+      fileList: [],
+      previewVisible: false,
+      previewImage: '',
+      merchantInfo: null
     }
   },
   computed: {
-    columns () {
-      return [{
-        title: '景点名称',
-        dataIndex: 'scenicName',
-        scopedSlots: {customRender: 'scenicNameShow'}
-      }, {
-        title: '票价',
-        dataIndex: 'scenicPrice',
-        customRender: (text, row, index) => {
-          return '￥' + text
-        },
-      }, {
-        title: '所在地',
-        dataIndex: 'address',
-        scopedSlots: {customRender: 'addressShow'}
-      }, {
-        title: '地区',
-        dataIndex: 'area',
-      }, {
-        title: '热度',
-        dataIndex: 'hot',
-        customRender: (text, row, index) => {
-          return text.substr(0, 7)
-        },
-      }, {
-        title: '等级',
-        dataIndex: 'level',
-      }, {
-        title: '游量',
-        dataIndex: 'sold',
-      }, {
-        title: '图片',
-        dataIndex: 'webImg',
-        scopedSlots: {customRender: 'webImg'},
-        customRender: (text, record, index) => {
-          if (!record.webImg) return <a-avatar shape="square" icon="user"/>
-          return <a-popover>
-            <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={record.webImg}/>
-            </template>
-            <a-avatar shape="square" icon="user" src={record.webImg}/>
-          </a-popover>
-        }
-      }, {
-        title: '文化历史',
-        dataIndex: 'history',
-        scopedSlots: {customRender: 'historyShow'}
-      }, {
-        title: '操作',
-        dataIndex: 'operation',
-        scopedSlots: {customRender: 'operation'}
-      }]
-    }
+    ...mapState({
+      currentUser: state => state.account.user
+    })
+  },
+  components: {
+    drawerMap
   },
   mounted () {
-    this.fetch()
+    this.getmerchantByUser()
+    baiduMap.initMap('areas')
   },
   methods: {
-    onSelectChange (selectedRowKeys) {
-      this.selectedRowKeys = selectedRowKeys
+    moment,
+    onChange (checkedList) {
+      this.indeterminate = !!checkedList.length && checkedList.length < plainOptions.length
+      this.checkAll = checkedList.length === plainOptions.length
+      console.log(this.checkedList)
     },
-    toggleAdvanced () {
-      this.advanced = !this.advanced
-      if (!this.advanced) {
-        this.queryParams.createTimeFrom = ''
-        this.queryParams.createTimeTo = ''
+    onCheckAllChange (e) {
+      Object.assign(this, {
+        checkedList: e.target.checked ? plainOptions : [],
+        indeterminate: false,
+        checkAll: e.target.checked
+      })
+    },
+    getmerchantByUser () {
+      this.$get('/cos/scenic-info/1', { userId: this.currentUser.userId }).then((r) => {
+        this.merchantInfo = r.data.data
+        this.rowId = this.merchantInfo.id
+        if (this.merchantInfo.point !== null) {
+          setTimeout(() => {
+            this.localhost(this.merchantInfo)
+          }, 500)
+        }
+        this.setFormValues(r.data.data)
+      })
+    },
+    localhost (scenic) {
+      baiduMap.clearOverlays()
+      baiduMap.rMap().enableScrollWheelZoom(true)
+      let point = new BMap.Point(scenic.point.split(',')[0], scenic.point.split(',')[1])
+      baiduMap.pointAdd(point)
+      baiduMap.findPoint(point, 16)
+    },
+    handleCancel () {
+      this.previewVisible = false
+    },
+    async handlePreview (file) {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj)
       }
+      this.previewImage = file.url || file.preview
+      this.previewVisible = true
     },
-    view (record) {
-      this.scenicView.data = record
-      this.scenicView.visiable = true
+    picHandleChange ({ fileList }) {
+      this.fileList = fileList
     },
-    add () {
-      this.userAdd.visiable = true
-    },
-    handleUserAddClose () {
-      this.userAdd.visiable = false
-    },
-    handleUserAddSuccess () {
-      this.userAdd.visiable = false
-      this.$message.success('新增景点成功')
-      this.search()
-    },
-    edit (record) {
-      this.$refs.userEdit.setFormValues(record)
-      this.userEdit.visiable = true
-    },
-    handleUserEditClose () {
-      this.userEdit.visiable = false
-    },
-    handleUserEditSuccess () {
-      this.userEdit.visiable = false
-      this.$message.success('修改景点成功')
-      this.search()
-    },
-    handlescenicViewClose () {
-      this.scenicView.visiable = false
-    },
-    handleTypeChange (value) {
-      this.queryParams.accountType = value || ''
-    },
-    handleDateChange (value) {
-      if (value) {
-        this.queryParams.createTimeFrom = value[0]
-        this.queryParams.createTimeTo = value[1]
-      }
-    },
-    batchDelete () {
-      if (!this.selectedRowKeys.length) {
-        this.$message.warning('请选择需要删除的记录')
-        return
-      }
-      let that = this
-      this.$confirm({
-        title: '确定删除所选中的记录?',
-        content: '当您点击确定按钮后，这些记录将会被彻底删除',
-        centered: true,
-        onOk () {
-          let ids = []
-          for (let key of that.selectedRowKeys) {
-            ids.push(that.dataSource[key].id)
+    handlerClosed (localPoint) {
+      this.childrenDrawer = false
+      if (localPoint !== null && localPoint !== undefined) {
+        this.localPoint = localPoint
+        let address = baiduMap.getAddress(localPoint)
+        address.getLocation(localPoint, (rs) => {
+          if (rs != null) {
+            if (rs.address !== undefined && rs.address.length !== 0) {
+              this.stayAddress = rs.address
+            }
+            if (rs.surroundingPois !== undefined) {
+              if (rs.surroundingPois.address !== undefined && rs.surroundingPois.address.length !== 0) {
+                this.stayAddress = rs.surroundingPois.address
+              }
+            }
+            this.form.getFieldDecorator('address')
+            let obj = {}
+            obj['address'] = this.stayAddress
+            this.form.setFieldsValue(obj)
           }
-          that.$delete('/cos/scenic-info/' + ids).then(() => {
-            that.$message.success('删除成功')
-            that.selectedRowKeys = []
-            that.search()
-          })
-        },
-        onCancel () {
-          that.selectedRowKeys = []
+        })
+      }
+    },
+    addPoint (point) {
+      this.localPoint = point
+    },
+    onSearch () {
+      let localData = []
+      var options = {
+        onSearchComplete: (results) => {
+          // 判断状态是否正确
+          // eslint-disable-next-line eqeqeq,no-undef
+          if (local.getStatus() == BMAP_STATUS_SUCCESS) {
+            for (var i = 0; i < results.getCurrentNumPois(); i++) {
+              if (i === 0) {
+                setTimeout(() => {
+                  baiduMap.findPoint(results.getPoi(0).point, 15)
+                }, 10)
+              }
+              localData.push(results.getPoi(i))
+              if (results.getPoi(i).point !== undefined) {
+                baiduMap.localPointAdd(results.getPoi(i))
+              }
+            }
+            this.localData = localData
+            this.cardShow = true
+          }
+        }
+      }
+      // eslint-disable-next-line no-undef
+      var local = new BMap.LocalSearch(baiduMap.rMap(), options)
+      local.search(this.local)
+    },
+    onClose () {
+      this.loading = false
+      this.form.resetFields()
+    },
+    showChildrenDrawer () {
+      this.childrenDrawer = true
+    },
+    onChildrenDrawerClose () {
+      this.childrenDrawer = false
+    },
+    imagesInit (images) {
+      if (images !== null && images !== '') {
+        let imageList = []
+        images.split(',').forEach((image, index) => {
+          imageList.push({uid: index, name: image, status: 'done', url: 'http://127.0.0.1:9527/imagesWeb/' + image})
+        })
+        this.fileList = imageList
+      }
+    },
+    setFormValues ({...user}) {
+      this.userId = user.id
+      let fields = ['scenicName', 'scenicPrice', 'address', 'history', 'webImg', 'sold', 'level', 'hot', 'area']
+      Object.keys(user).forEach((key) => {
+        if (key === 'images') {
+          this.fileList = []
+          this.imagesInit(user['images'])
+        }
+        if (fields.indexOf(key) !== -1) {
+          this.form.getFieldDecorator(key)
+          let obj = {}
+          obj[key] = user[key]
+          this.form.setFieldsValue(obj)
         }
       })
     },
-    exportExcel () {
-      let {sortedInfo, filteredInfo} = this
-      let sortField, sortOrder
-      // 获取当前列的排序和列的过滤规则
-      if (sortedInfo) {
-        sortField = sortedInfo.field
-        sortOrder = sortedInfo.order
-      }
-      this.$export('user/excel', {
-        sortField: sortField,
-        sortOrder: sortOrder,
-        ...this.queryParams,
-        ...filteredInfo
+    handleSubmit () {
+      // 获取图片List
+      let images = []
+      this.fileList.forEach(image => {
+        if (image.response !== undefined) {
+          images.push(image.response)
+        } else {
+          images.push(image.name)
+        }
       })
-    },
-    search () {
-      let {sortedInfo, filteredInfo} = this
-      let sortField, sortOrder
-      // 获取当前列的排序和列的过滤规则
-      if (sortedInfo) {
-        sortField = sortedInfo.field
-        sortOrder = sortedInfo.order
-      }
-      this.fetch({
-        sortField: sortField,
-        sortOrder: sortOrder,
-        ...this.queryParams,
-        ...filteredInfo
-      })
-    },
-    reset () {
-      // 取消选中
-      this.selectedRowKeys = []
-      // 重置分页
-      this.$refs.TableInfo.pagination.current = this.pagination.defaultCurrent
-      if (this.paginationInfo) {
-        this.paginationInfo.current = this.pagination.defaultCurrent
-        this.paginationInfo.pageSize = this.pagination.defaultPageSize
-      }
-      // 重置列过滤器规则
-      this.filteredInfo = null
-      // 重置列排序规则
-      this.sortedInfo = null
-      // 重置查询参数
-      this.queryParams = {}
-      // 清空部门树选择
-      this.$refs.deptTree.reset()
-      // 清空时间选择
-      if (this.advanced) {
-        this.$refs.createTime.reset()
-      }
-      this.fetch()
-    },
-    handleTableChange (pagination, filters, sorter) {
-      // 将这三个参数赋值给Vue data，用于后续使用
-      this.paginationInfo = pagination
-      this.filteredInfo = filters
-      this.sortedInfo = sorter
-      this.scenicView.visiable = false
-      this.fetch({
-        sortField: sorter.field,
-        sortOrder: sorter.order,
-        ...this.queryParams,
-        ...filters
-      })
-    },
-    fetch (params = {}) {
-      // 显示loading
-      this.loading = true
-      if (this.paginationInfo) {
-        // 如果分页信息不为空，则设置表格当前第几页，每页条数，并设置查询分页参数
-        this.$refs.TableInfo.pagination.current = this.paginationInfo.current
-        this.$refs.TableInfo.pagination.pageSize = this.paginationInfo.pageSize
-        params.size = this.paginationInfo.pageSize
-        params.current = this.paginationInfo.current
-      } else {
-        // 如果分页信息为空，则设置为默认值
-        params.size = this.pagination.defaultPageSize
-        params.current = this.pagination.defaultCurrent
-      }
-      this.$get('/cos/scenic-info/page', {
-        ...params
-      }).then((r) => {
-        let data = r.data.data
-        const pagination = {...this.pagination}
-        pagination.total = data.total
-        this.dataSource = data.records
-        this.pagination = pagination
-        // 数据加载完毕，关闭loading
-        this.loading = false
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          this.loading = true
+          let user = this.form.getFieldsValue()
+          if (this.localPoint.lng !== undefined && this.localPoint.lat !== undefined) {
+            user.point = this.localPoint.lng.toString() + ',' + this.localPoint.lat
+          }
+          user.images = images.length > 0 ? images.join(',') : null
+          user.id = this.rowId
+          this.$put('/cos/scenic-info', {
+            ...user
+          }).then((r) => {
+            this.loading = false
+            this.$message.success('修改成功')
+          }).catch(() => {
+            this.loading = false
+          })
+        }
       })
     }
   }
 }
 </script>
-<style lang="less" scoped>
-@import "../../../../static/less/Common";
+
+<style scoped>
+
 </style>

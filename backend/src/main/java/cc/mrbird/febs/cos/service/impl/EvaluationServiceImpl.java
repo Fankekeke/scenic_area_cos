@@ -49,4 +49,9 @@ public class EvaluationServiceImpl extends ServiceImpl<EvaluationMapper, Evaluat
     public List<LinkedHashMap<String, Object>> getEvaluationByHotel(Integer hotelId) {
         return baseMapper.getEvaluationByHotel(hotelId);
     }
+
+    @Override
+    public List<LinkedHashMap<String, Object>> getEvaluationByRoomType(Integer roomTypeId) {
+        return baseMapper.getEvaluationByRoomType(roomTypeId);
+    }
 }

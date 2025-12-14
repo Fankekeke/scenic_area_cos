@@ -87,10 +87,10 @@
     </view>
 </view>
 
-<!--附近旅店-->
+<!--附近酒店-->
 <view class="cu-bar bg-white solid-bottom margin-top">
     <view class='action'>
-        <text class='icon-title text-orange'></text> 附近旅店
+        <text class='icon-title text-orange'></text> 附近酒店
     </view>
     <!-- <navigator hover-class='none' url="/pages/home/groom/index">
         <view class='action' style="font-size: 27rpx;"> 更多 <view class='icon-right'></view> </view>

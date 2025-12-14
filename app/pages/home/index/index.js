@@ -51,7 +51,7 @@ Page({
 		}],
 		Headlines: [{
 			id:1,
-			title:"朱家尖自主旅游",
+			title:"青龙湖旅游购票",
 			type: 1
 		},{
 			id:2,

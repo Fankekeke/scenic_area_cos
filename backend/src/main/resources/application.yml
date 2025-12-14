@@ -32,7 +32,7 @@ spring:
           username: root
           password: 123456
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://127.0.0.1:3306/scenic_services_cos?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+          url: jdbc:mysql://127.0.0.1:3306/scenic_area_cos?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
         # 数据源-2，名称为 test
 #        test:
 #          username: root
@@ -90,6 +90,6 @@ febs:
         num: 1000
   shiro:
     # 后端免认证接口 url
-    anonUrl: /login,/logout/**,/regist,/regist/user,/user/check/**,/file/**,/api/**,/imagesWeb/**,/cos/user-info/register/email,/cos/user-info/verification/check,/cos/pay/payOverBack
+    anonUrl: /login,/logout/**,/regist,/regist/user,/user/check/**,/file/**,/api/**,/imagesWeb/**,/cos/user-info/register/email,/cos/user-info/verification/check,/cos/pay/payOverBack,/api/**
     # token有效期，单位秒
     jwtTimeOut: 3600

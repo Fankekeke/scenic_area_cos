@@ -122,4 +122,19 @@
             1 = 1 AND eva.type = 2
         AND oi.hotel_id = #{hotelId}
     </select>
+
+    <!-- 获取房间评价 -->
+    <select id="getEvaluationByRoomType" resultType="java.util.LinkedHashMap">
+        SELECT
+            eva.content,
+            eva.create_date,
+            ui.avatar,
+            ui.name AS userName
+        FROM
+            evaluation eva
+                LEFT JOIN order_info oi ON ( oi.id = eva.order_id )
+                LEFT JOIN user_info ui ON ( ui.id = eva.user_id )
+        WHERE
+            oi.type_id = #{ roomTypeId }
+    </select>
 </mapper>

@@ -47,6 +47,7 @@ public class ScenicInfo implements Serializable {
     private String level;
 
     private String sold;
+    private String images;
 
     /**
      * 评分

@@ -47,6 +47,17 @@ public class ScenicInfoController {
     }
 
     /**
+     * 查询景点详情
+     *
+     * @param id 景点ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    public R queryDetail(@PathVariable(value = "id") Integer id) {
+        return R.ok(scenicInfoService.getById(id));
+    }
+
+    /**
      * 查询附近的景点
      *
      * @param lat

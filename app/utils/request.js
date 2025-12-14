@@ -37,7 +37,7 @@ function fetch(options) {
             title: res.errMsg,
             mask: "true",
             icon: 'none',
-            duration: 10000
+            duration: 1000
           })
           return;
         }
@@ -50,7 +50,7 @@ function fetch(options) {
         wx.showToast({
           title: "网络连接超时",
           icon: 'none',
-          duration: 3000,
+          duration: 1000,
         })
       }
     })

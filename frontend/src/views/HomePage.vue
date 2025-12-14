@@ -3,9 +3,9 @@
     <a-row :gutter="8" class="head-info">
       <a-card class="head-info-card">
         <a-col :span="12">
-          <div class="head-info-avatar">
-            <img alt="头像" :src="avatar">
-          </div>
+<!--          <div class="head-info-avatar">-->
+<!--            <img alt="头像" :src="avatar">-->
+<!--          </div>-->
           <div class="head-info-count">
             <div class="head-info-welcome">
               {{ welcomeMessage }}
@@ -61,35 +61,11 @@
         </a-card>
       </a-col>
     </a-row>
+    <home v-if="user.roleId == 74"></home>
+
     <a-row :gutter="8" class="count-info" v-show="user.roleId == 74">
       <a-col :span="10" class="visit-count-wrapper">
         <a-card>
-          <div v-if="scenicShow" class="scenicInfo detail-card" style="height: 825px; overflow-y: auto">
-            <img :src="scenicData.webImg" alt="" class="detail-image">
-            <a-card :title="scenicData.name" class="content-card">
-              <a slot="extra" @click="scenicBack" class="back-link">← 返回</a>
-              <a-tabs default-active-key="1" class="detail-tabs">
-                <a-tab-pane key="1" tab="基础信息">
-                  <ul class="info-list">
-                    <li><span class="info-label">地址：</span>{{ scenicData.address }}</li>
-                    <li><span class="info-label">等级：</span>{{ scenicData.level }}</li>
-                    <!--            <li><span class="info-label">开园时间：</span>{{ scenicData.startDate }} ~ {{ scenicData.endDate }}</li>-->
-                    <li><span class="info-label">门票：</span><span class="price">{{ scenicData.scenicPrice }} 元</span>
-                    </li>
-                    <li><span class="info-label">景区介绍：</span>{{ scenicData.history }}</li>
-                  </ul>
-                  <div id="areas" style="width: 100%;height: 310px;box-shadow: 0 0 0 10px white;"></div>
-                </a-tab-pane>
-                <a-tab-pane key="2" tab="路线规划">
-                  <a-timeline class="route-timeline">
-                    <a-timeline-item v-for="(item,index) in roadData" :key="index">
-                      <div v-html="item" class="route-step"></div>
-                    </a-timeline-item>
-                  </a-timeline>
-                </a-tab-pane>
-              </a-tabs>
-            </a-card>
-          </div>
           <div v-if="hotelShow" class="scenicInfo detail-card" style="height: 825px; overflow-y: auto">
             <img :src="'http://127.0.0.1:9527/imagesWeb/'+hotelData.images.split(',')[0]" alt="" class="detail-image">
             <a-card :title="hotelData.name" class="content-card">
@@ -113,42 +89,7 @@
               </a-tabs>
             </a-card>
           </div>
-          <a-tabs default-active-key="1" v-if="!scenicShow && !hotelShow">
-            <a-tab-pane key="1" tab="景点" class="list-tab">
-              <a-card
-                @click="scenicDetail(item)"
-                hoverable
-                class="item-card"
-                v-for="(item, index) in scenicList"
-                :key="index"
-              >
-                <a-popover v-if="item.webImg !== null">
-                  <template slot="content">
-                    <a-avatar shape="square" :size="132" icon="user" :src="item.webImg"/>
-                  </template>
-                  <a-avatar
-                    shape="square"
-                    :size="120"
-                    icon="user"
-                    class="item-avatar"
-                    :src="item.webImg"
-                  />
-                </a-popover>
-                <div class="item-content">
-                  <a-card-meta
-                    :title="item.scenicName"
-                    :description="item.history.slice(0, 40)+'...'"
-                    class="item-meta"
-                  />
-                  <div class="item-details">
-                    <p class="price-tag">{{ item.scenicPrice }} 元</p>
-                    <p class="level-tag">等级：{{ item.level }}</p>
-                  </div>
-                  <!--                    <p class="level-tag">{{ item.address }}</p>-->
-                </div>
-              </a-card>
-            </a-tab-pane>
-
+          <a-tabs default-active-key="2" v-if="!hotelShow">
             <!-- 酒店列表项美化 -->
             <a-tab-pane key="2" tab="酒店" class="list-tab">
               <a-card
@@ -232,13 +173,14 @@
 import HeadInfo from '@/views/common/HeadInfo'
 import {mapState} from 'vuex'
 import moment from 'moment'
+import Home from './manage/component/home/Home'
 import baiduMap from '@/utils/map/baiduMap'
 
 moment.locale('zh-cn')
 
 export default {
   name: 'HomePage',
-  components: {HeadInfo},
+  components: {HeadInfo, Home},
   data () {
     return {
       scenicEvaluations: [],
@@ -353,7 +295,6 @@ export default {
       loading: false,
       scenicList: [],
       hotelList: [],
-      scenicShow: false,
       scenicData: null,
       hotelShow: false,
       hotelData: null,
@@ -371,24 +312,6 @@ export default {
     }
   },
   methods: {
-    scenicBack () {
-      this.scenicShow = false
-      this.scenicEvaluations = []
-    },
-    scenicDetail (row) {
-      this.scenicData = row
-      this.scenicShow = true
-      this.queryEvaluateByScenicId(row.id)
-      if (this.user.roleId === '74') {
-        setTimeout(() => {
-          baiduMap.initMap('areas')
-          this.getLocal()
-          setTimeout(() => {
-            this.local(row)
-          }, 300)
-        }, 200)
-      }
-    },
     hotelBack () {
       this.hotelShow = false
       this.scenicEvaluations = []

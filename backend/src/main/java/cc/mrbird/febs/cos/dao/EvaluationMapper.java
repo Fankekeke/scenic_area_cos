@@ -47,4 +47,7 @@ public interface EvaluationMapper extends BaseMapper<Evaluation> {
      * @return
      */
     List<LinkedHashMap<String, Object>> getEvaluationByHotel(@Param("hotelId") Integer hotelId);
+
+    // 获取房间评价
+    List<LinkedHashMap<String, Object>> getEvaluationByRoomType(@Param("roomTypeId") Integer roomTypeId);
 }

@@ -57,5 +57,6 @@ public class UserInfo implements Serializable {
      * 创建时间
      */
     private String createDate;
+    private String openId;
 
 }

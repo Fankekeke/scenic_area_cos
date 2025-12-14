@@ -8,6 +8,7 @@
 
 <script>
 import enquireScreen from './utils/device'
+
 import chinese from 'ant-design-vue/lib/locale-provider/zh_CN'
 import 'moment/locale/zh-cn'
 
