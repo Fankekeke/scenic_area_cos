@@ -19,7 +19,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -93,6 +95,25 @@ public class WebController {
             user.setOpenId(openid);
             user.setCreateDate(DateUtil.formatDateTime(new Date()));
             user.setCode("UR-" + System.currentTimeMillis());
+            // 图片上传
+            byte[] bytes = HttpUtil.downloadBytes(user.getAvatar());
+            MultipartFile multipartFile = new MockMultipartFile("xxx.jpg", "xxx.jpg", ".jpg", bytes);
+            // 1定义要上传文件 的存放路径
+            String localPath = "G:/Project/20251201AI知识库智能景区小程序/db";
+            // 2获得文件名字
+            String fileName = multipartFile.getName();
+            // 2上传失败提示
+            String warning = "";
+            String newFileName = cc.mrbird.febs.common.utils.FileUtil.upload(multipartFile, localPath, fileName);
+            if (newFileName != null) {
+                //上传成功
+                warning = newFileName;
+            } else {
+                warning = "上传失败";
+            }
+            System.out.println(warning);
+            user.setImages(warning);
+            user.setAvatar(warning);
             userInfoService.save(user);
             return R.ok(user);
         }
@@ -394,5 +415,27 @@ public class WebController {
     @GetMapping("/getHotelByScenic")
     public R getHotelByScenic(Integer scenicId) {
         return R.ok(hotelInfoService.list());
+    }
+
+    /**
+     * 获取景点详情
+     *
+     * @param scenicId 景区ID
+     * @return 结果
+     */
+    @GetMapping("/queryScenicDetail")
+    public R queryScenicDetail(Integer scenicId) {
+        return R.ok(scenicInfoService.getOne(Wrappers.<ScenicInfo>lambdaQuery().eq(ScenicInfo::getId, scenicId)));
+    }
+
+    /**
+     * 获取景点评价
+     *
+     * @param scenicId 景区ID
+     * @return 评价列表
+     */
+    @GetMapping("/queryEvaluateByScenicId")
+    public R queryEvaluateByScenicId(Integer scenicId) {
+        return R.ok(evaluationService.queryEvaluateByScenicId(scenicId));
     }
 }

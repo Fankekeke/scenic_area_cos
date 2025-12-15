@@ -4,6 +4,7 @@
     "pages/user/index/index",
     "pages/auth/auth",
     "pages/home/gscenic/index",
+    "pages/home/pscenic/index",
     "pages/home/groom/index"
   ],
   "window": {
@@ -23,6 +24,12 @@
         "iconPath": "img/home.png",
         "selectedIconPath": "img/home1.png",
         "text": "首页"
+      },
+      {
+        "pagePath": "pages/home/pscenic/index",
+        "iconPath": "img/message.png",
+        "selectedIconPath": "img/message1.png",
+        "text": "购票"
       },
       {
         "pagePath": "pages/home/groom/index",

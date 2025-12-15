@@ -2,30 +2,64 @@
 <view class="cu-custom" style="height:{{CustomBar}}px;">
     <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
         <navigator class='action canui-head-title' open-type="navigateBack" delta="1" hover-class="none">
-            <text class='icon-back'></text> 景区列表
+            <text class='icon-back'></text> 景区信息
         </navigator>
     </view>
 </view>
 
-<view class="box" style="top: {{CustomBar}}px;">
+        <!-- 景区主图 -->
+<view class="banner" style="background-image: url({{'http://127.0.0.1:9527/imagesWeb/' + scenicInfo.images}}); height: 200px; background-size: cover; background-position: center;"></view>
 
-    <navigator hover-class='none' url="" wx:for="{{ shopList }}">
-        <view class="cu-card case">
-            <view class="cu-item shadow margin-top">
-                <view class="cu-list menu menu-avatar">
-                    <view class="cu-item">
-                        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.image }});"></view>
-                        <view class='content'>
-                            <view class='text-black canui-xzwz' style="font-size: 13px">{{ item.name }}</view>
-                            <view class='text-gray text-sm canui-xzwz'> {{ item.address }}</view>
-                            <view class='text-orange text-sm canui-xzwz'> {{ item.tag }}</view>
+        <!-- 景区基本信息 -->
+<view class="info-section padding solid-bottom">
+    <view class="title text-bold text-xl">{{ scenicInfo.scenicName }}</view>
+    <view class="desc margin-top-sm text-gray">{{ scenicInfo.area }}</view>
+    <view class="tags flex align-center margin-top-sm">
+        <text class="tag bg-blue light radius padding-xs">{{ scenicInfo.level }}</text>
+        <text class="tag bg-red light radius padding-xs margin-left-xs">{{ scenicInfo.hot }}</text>
+    </view>
+
+    <!-- 价格和评分 -->
+    <view class="price-score flex justify-between align-center margin-top">
+        <text class="price text-red text-bold">￥{{ scenicInfo.scenicPrice }} </text>
+        <text class="score text-yellow">评分: {{ scenicInfo.score }} ★</text>
+    </view>
+
+    <!-- 已售数量 -->
+    <view class="sold-count text-right margin-top-sm text-gray">
+        已售 {{ scenicInfo.sold }} 件
+    </view>
+</view>
+
+<view class="comment-section padding margin-top bg-white shadow radius">
+    <view class="section-title text-bold flex justify-between align-center">
+        <text>用户评价</text>
+        <text class="text-sm text-gray">共{{ shopList.length }}条</text>
+    </view>
+
+    <view class="comment-list margin-top">
+        <view class="comment-item padding-bottom solid-bottom" wx:for="{{ shopList }}" wx:key="id">
+            <view class="flex align-center">
+                <image class="cu-avatar round" src="http://127.0.0.1:9527/imagesWeb/{{ item.avatar }}" mode="aspectFill"></image>
+                <view class="margin-left-sm flex-sub">
+                    <view class="flex justify-between">
+                        <text class="text-bold">{{ item.userName }}</text>
+                        <text class="text-sm text-gray">{{ item.createDate }}</text>
+                    </view>
+                    <view class="flex align-center margin-top-xs">
+                        <view class="flex">
+                            <text wx:for="{{ [1,2,3,4,5] }}" wx:key="index" class="text-yellow">{{ index < item.score ? '★' : '☆' }}</text>
                         </view>
-                        <view class='action'>
-                            <button class='cu-btn bg-gradual-green shadow-blur radius' bindtap='shopDeatil' data-shopId='{{ item.id }}'>查看</button>
-                        </view>
+                        <text class="text-sm text-gray margin-left-sm">{{ item.score }}分</text>
                     </view>
                 </view>
             </view>
+            <view class="comment-content margin-top-sm text-content">
+                {{ item.content }}
+            </view>
+            <view wx:if="{{ item.scenicName }}" class="margin-top-xs">
+                <text class="tag bg-blue light radius padding-xs">来自: {{ item.scenicName }}</text>
+            </view>
         </view>
-    </navigator>
+    </view>
 </view>

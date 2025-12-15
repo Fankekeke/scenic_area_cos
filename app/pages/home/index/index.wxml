@@ -50,20 +50,19 @@
 <!--视频区域-->
 <!-- <video class="canui-video shadow-warp bg-white" src="{{videosrc}}"></video> -->
 
-<!--热门景点-->
 <view class="cu-bar bg-white margin-top solid-bottom">
     <view class='action'>
         <text class='icon-title text-green'></text>
-        <text>热门景点</text>
+        <text>景区论坛</text>
     </view>
-    <navigator hover-class='none' url="/pages/home/gscenic/index">
+    <!-- <navigator hover-class='none' url="/pages/home/groom/index">
         <view class='action' style="font-size: 27rpx;"> 更多 <view class='icon-right'></view> </view>
-    </navigator>
+    </navigator> -->
 </view>
 <view class="bg-white" style="padding:0 30rpx;padding-bottom: 20rpx;">
     <view class='nav-list canui-flex-car'>
 
-        <navigator wx:for="{{ scenicInfo }}" open-type="navigate" hover-class='none' url="/pages/shop/goods/details?scenicId={{ item.id }}" class="nav-li canui-yx-url">
+        <navigator wx:for="{{postInfo}}" open-type="navigate" hover-class='none' data-postId='{{item.id}}' bindtap='postDetail' class="nav-li canui-yx-url">
             <view class="flex-sub cu-card case shadow-warp bg-white">
                 <view class="cu-item shadow">
                     <view class='image'>
@@ -72,14 +71,14 @@
                     <view class="cu-list menu menu-avatar">
                         <view class="cu-item">
                             <view class='content flex-sub'>
-                                <view class='text-grey'>{{ item.name }}</view>
+                                <view class='text-grey' style="font-size: 11px">{{ item.userName }}</view>
                                 <view class='text-gray text-sm flex justify-between'>
-                                    {{ item.feature }}
+                                    {{item.title}}
                                 </view>
                             </view>
                         </view>
                     </view>
-                    <!-- <view class="cu-avatar radius" style="background-image:url(https://image.weilanwl.com/img/square-4.jpg);"></view> -->
+                    <view class="cu-avatar radius" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{item.userImages}});"></view>
                 </view>
             </view>
         </navigator>

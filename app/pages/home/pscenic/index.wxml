@@ -1,0 +1,58 @@
+<!--状态栏区域-->
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+    <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+        <navigator class='action canui-head-title' open-type="navigateBack" delta="1" hover-class="none">
+            <text class='icon-back'></text> 景区信息
+        </navigator>
+    </view>
+</view>
+        <!-- 景区基本信息 -->
+<view class="info-section padding solid-bottom">
+    <view class="title text-bold text-xl">{{ scenicInfo.scenicName }}</view>
+    <view class="desc margin-top-sm text-gray">{{ scenicInfo.area }}</view>
+    <view class="tags flex align-center margin-top-sm">
+        <text class="tag bg-blue light radius padding-xs">{{ scenicInfo.level }}</text>
+        <text class="tag bg-red light radius padding-xs margin-left-xs">{{ scenicInfo.hot }}</text>
+    </view>
+
+    <!-- 价格和评分 -->
+    <view class="price-score flex justify-between align-center margin-top">
+        <text class="price text-red text-bold">￥{{ scenicInfo.scenicPrice }} </text>
+        <text class="score text-yellow">评分: {{ scenicInfo.score }} ★</text>
+    </view>
+
+    <!-- 已售数量 -->
+    <view class="sold-count text-right margin-top-sm text-gray">
+        已售 {{ scenicInfo.sold }} 件
+    </view>
+</view>
+
+        <!-- 景区介绍 -->
+<view class="introduction-section padding margin-top bg-white">
+    <view class="section-title text-bold">景区介绍</view>
+    <view class="content margin-top-sm text-content">
+        {{ scenicInfo.history }}
+    </view>
+</view>
+
+<view class="purchase-section padding margin-top bg-white shadow radius">
+    <view class="flex justify-between align-center padding-bottom solid-bottom">
+        <view class="text-bold text-lg">门票预订</view>
+        <view class="price text-red text-bold text-lg">￥{{ scenicInfo.scenicPrice }} </view>
+    </view>
+
+    <!-- 数量选择器 -->
+    <view class="quantity-selector flex align-center margin-top justify-between">
+        <view class="text-gray">购买数量</view>
+        <view class="flex align-center">
+            <button class="cu-btn round bg-red light shadow" bindtap="reduceQuantity">-</button>
+            <input class="quantity-input text-center margin-lr-sm" value="{{ quantity }}" disabled style="width: 60rpx;"></input>
+            <button class="cu-btn round bg-green light shadow" bindtap="addQuantity">+</button>
+        </view>
+    </view>
+
+    <!-- 购票按钮 -->
+    <button class="cu-btn block bg-gradual-green radius shadow-blur margin-top lg">
+        立即购买
+    </button>
+</view>

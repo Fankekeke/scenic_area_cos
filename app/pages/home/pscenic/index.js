@@ -11,7 +11,6 @@ Page({
 	},
 	onLoad: function (option) {
 		this.queryScenicDetail()
-		this.queryEvaluateByScenicId()
 	},
 	shopDeatil(e) {
 		wx.navigateTo({
@@ -26,13 +25,33 @@ Page({
 			})
 		})
 	},
-	queryEvaluateByScenicId() {
-		http.get('queryEvaluateByScenicId', {scenicId: 1}).then((r) => {
-			console.log(r.data)
+
+	// 增加数量
+	addQuantity: function() {
+		this.setData({
+			quantity: this.data.quantity + 1
+		});
+	},
+
+	// 减少数量
+	reduceQuantity: function() {
+		if (this.data.quantity > 1) {
 			this.setData({
-				shopList: r.data
-			})
-		})
+				quantity: this.data.quantity - 1
+			});
+		}
+	},
+
+	// 购票方法
+	buyTicket: function() {
+		const quantity = this.data.quantity;
+		const scenicInfo = this.data.scenicInfo;
+		// 这里可以跳转到订单确认页面或调用购票接口
+		console.log('购买数量:', quantity);
+		wx.showToast({
+			title: `已选择${quantity}张门票`,
+			icon: 'success'
+		});
 	},
 
 	getShopList() {

@@ -11,6 +11,7 @@
         ui.email,
         ui.phone,
         ui.avatar,
+        ui.images,
         ui.user_id AS userId,
         ui.create_date AS createDate,
         tu.`STATUS` AS status
