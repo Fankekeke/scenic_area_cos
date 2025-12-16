@@ -78,7 +78,7 @@
                             </view>
                         </view>
                     </view>
-                    <view class="cu-avatar radius" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{item.userImages}});"></view>
+                    <view class="cu-avatar radius" style="background-image:url({{item.avatar}});"></view>
                 </view>
             </view>
         </navigator>
@@ -87,23 +87,23 @@
 </view>
 
 <!--附近酒店-->
-<view class="cu-bar bg-white solid-bottom margin-top">
-    <view class='action'>
-        <text class='icon-title text-orange'></text> 附近酒店
-    </view>
-    <!-- <navigator hover-class='none' url="/pages/home/groom/index">
-        <view class='action' style="font-size: 27rpx;"> 更多 <view class='icon-right'></view> </view>
-    </navigator> -->
-</view>
-<view class="cu-list menu menu-avatar">
-    <view class="cu-item " wx:for="{{ hotelInfo }}">
-        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.image }});"></view>
-        <view class='content'>
-            <view>{{ item.name }}</view>
-            <view class='text-gray text-sm'>{{ item.content }}</view>
-        </view>
-        <view class='action'>
-            <view class='text-grey text-xs'></view>
-        </view>
-    </view>
-</view>
+<!--<view class="cu-bar bg-white solid-bottom margin-top">-->
+<!--    <view class='action'>-->
+<!--        <text class='icon-title text-orange'></text> 附近酒店-->
+<!--    </view>-->
+<!--    &lt;!&ndash; <navigator hover-class='none' url="/pages/home/groom/index">-->
+<!--        <view class='action' style="font-size: 27rpx;"> 更多 <view class='icon-right'></view> </view>-->
+<!--    </navigator> &ndash;&gt;-->
+<!--</view>-->
+<!--<view class="cu-list menu menu-avatar">-->
+<!--    <view class="cu-item " wx:for="{{ hotelInfo }}">-->
+<!--        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.image }});"></view>-->
+<!--        <view class='content'>-->
+<!--            <view>{{ item.name }}</view>-->
+<!--            <view class='text-gray text-sm'>{{ item.content }}</view>-->
+<!--        </view>-->
+<!--        <view class='action'>-->
+<!--            <view class='text-grey text-xs'></view>-->
+<!--        </view>-->
+<!--    </view>-->
+<!--</view>-->

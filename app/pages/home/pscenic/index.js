@@ -7,10 +7,36 @@ Page({
 		hidden: true,
 		scenicInfo: null,
 		shopList: [],
-		quantity: 1
+		weatherList: [],
+		quantity: 1,
+		isPlaying: false,
+		content: ''
 	},
 	onLoad: function (option) {
 		this.queryScenicDetail()
+		this.queryWeather()
+	},
+	queryWeather() {
+		http.get('queryWeather').then((r) => {
+			this.setData({
+				weatherList: r.data.data.forecast.slice(0, 5)
+			})
+			this.queryScenicContent()
+		})
+	},
+	queryScenicContent() {
+		let weatherText = '天气预测：\n'
+		if (this.data.weatherList) {
+			for (let i = 0; i < 3; i++) {
+				weatherText += this.data.weatherList[i].ymd + '，' + this.data.weatherList[i].type + '，' + this.data.weatherList[i].high + '，' + this.data.weatherList[i].low + '\n'
+			}
+		}
+		let params = '请介绍景点四川青龙湖，并规划附近的可玩景点，300字内' + weatherText
+		http.post('aliTyqw', {content: params}).then((r) => {
+			this.setData({
+				content: r.msg
+			})
+		})
 	},
 	shopDeatil(e) {
 		wx.navigateTo({
@@ -63,5 +89,56 @@ Page({
                 shopList: r.data
             })
         })
+	},
+	// 语音播报控制
+	toggleVoicePlayback: function() {
+		const backgroundAudioManager = wx.getBackgroundAudioManager();
+
+		if (this.data.isPlaying) {
+			// 停止播放
+			backgroundAudioManager.stop();
+			this.setData({
+				isPlaying: false
+			});
+		} else {
+			// 开始播放
+			const text = this.data.scenicInfo.history;
+			this.synthesizeSpeech(text);
+		}
+	},
+
+// 文字转语音
+	synthesizeSpeech: function(text) {
+		const that = this;
+		const backgroundAudioManager = wx.getBackgroundAudioManager();
+		let audioUrl = 'http://127.0.0.1:9527/imagesWeb/content.mp3';
+		backgroundAudioManager.title = that.data.scenicInfo.scenicName + '介绍';
+		backgroundAudioManager.epname = '景区介绍';
+		backgroundAudioManager.singer = '智能语音';
+		backgroundAudioManager.coverImgUrl = that.data.scenicInfo.images ?
+			that.data.scenicInfo.images.split(',')[0] : '';
+		backgroundAudioManager.src = audioUrl;
+
+		that.setData({
+			isPlaying: true
+		});
+
+		// 监听播放结束
+		backgroundAudioManager.onEnded(() => {
+			that.setData({
+				isPlaying: false
+			});
+		});
+
+		// 监听播放错误
+		backgroundAudioManager.onError(() => {
+			that.setData({
+				isPlaying: false
+			});
+			wx.showToast({
+				title: '播放失败',
+				icon: 'none'
+			});
+		});
 	}
 });

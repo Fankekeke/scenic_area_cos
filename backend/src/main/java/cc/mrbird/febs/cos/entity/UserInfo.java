@@ -32,6 +32,7 @@ public class UserInfo implements Serializable {
      * 用户姓名
      */
     private String name;
+    private String userName;
 
     /**
      * 邮箱地址

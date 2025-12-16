@@ -42,7 +42,7 @@
   "compileType": "miniprogram",
   "libVersion": "2.21.4",
   "appid": "wx76a6577665633a86",
-  "projectname": "%E6%9C%B1%E5%AE%B6%E5%B0%96-%E8%87%AA%E5%8A%A9%E6%97%85%E6%B8%B8",
+  "projectname": "青龙湖-旅游购票系统",
   "debugOptions": {
     "hidedInDevtools": []
   },

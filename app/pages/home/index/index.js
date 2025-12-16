@@ -28,7 +28,7 @@ Page({
 			id: 1,
 			icon: 'questionfill',
 			color: 'red',
-			name: '景点',
+			name: '评价',
 			type: 1
 		}, {
 			id: 2,

@@ -1,9 +1,9 @@
 <!--状态栏区域-->
 <view class="cu-custom" style="height:{{CustomBar}}px;">
     <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
-        <navigator class='action canui-head-title' open-type="navigateBack" delta="1" hover-class="none">
-            <text class='icon-back'></text> 景区信息
-        </navigator>
+<!--        <navigator class='action canui-head-title' open-type="navigateBack" delta="1" hover-class="none">-->
+<!--            <text class='icon-back'></text> 景区信息-->
+<!--        </navigator>-->
     </view>
 </view>
         <!-- 景区基本信息 -->
@@ -20,19 +20,21 @@
         <text class="price text-red text-bold">￥{{ scenicInfo.scenicPrice }} </text>
         <text class="score text-yellow">评分: {{ scenicInfo.score }} ★</text>
     </view>
-
-    <!-- 已售数量 -->
-    <view class="sold-count text-right margin-top-sm text-gray">
-        已售 {{ scenicInfo.sold }} 件
-    </view>
 </view>
 
         <!-- 景区介绍 -->
 <view class="introduction-section padding margin-top bg-white">
-    <view class="section-title text-bold">景区介绍</view>
-    <view class="content margin-top-sm text-content">
-        {{ scenicInfo.history }}
+    <view class="flex justify-between align-center">
+        <view class="section-title text-bold">景区介绍</view>
+        <view class="voice-control">
+            <button class="cu-btn round sm" bindtap="toggleVoicePlayback">
+                <text class="icon-notification"></text> {{ isPlaying ? '停止' : '播放' }}
+            </button>
+        </view>
     </view>
+<!--    <view class="content margin-top-sm text-content">-->
+<!--        {{ scenicInfo.history }}-->
+<!--    </view>-->
 </view>
 
 <view class="purchase-section padding margin-top bg-white shadow radius">
@@ -55,4 +57,32 @@
     <button class="cu-btn block bg-gradual-green radius shadow-blur margin-top lg">
         立即购买
     </button>
+</view>
+
+<view class="weather-section padding margin-top bg-white">
+    <view class="section-title text-bold margin-bottom">天气预报</view>
+    <view class="weather-list">
+        <block wx:for="{{weatherList}}" wx:key="date">
+            <view class="weather-item flex justify-between align-center padding-bottom solid-bottom margin-bottom">
+                <view class="date-info">
+                    <view class="date">{{item.ymd}}</view>
+                    <view class="week">{{item.week}}</view>
+                </view>
+                <view class="weather-detail">
+                    <view class="temperature">{{item.low}} ~ {{item.high}}</view>
+                    <view class="type">{{item.type}}</view>
+                </view>
+                <view class="wind-info text-gray">
+                    <view>{{item.fx}}</view>
+                    <view>{{item.fl}}</view>
+                </view>
+            </view>
+        </block>
+    </view>
+</view>
+<view class="ai-introduction-section padding margin-top bg-white">
+    <view class="section-title text-bold margin-bottom">智能推荐</view>
+    <view class="content text-content">
+        {{ content }}
+    </view>
 </view>

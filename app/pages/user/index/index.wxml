@@ -14,7 +14,13 @@
     <view class="cu-item arrow">
         <navigator class='content' open-type="navigate" hover-class='none' url="/pages/order/index/index">
             <text class='icon-send text-cyan'></text>
-            <text class='text-grey'>我的订单</text>
+            <text class='text-grey'>景区订单</text>
+        </navigator>
+    </view>
+    <view class="cu-item arrow">
+        <navigator class='content' open-type="navigate" hover-class='none' url="/pages/order/index/index">
+            <text class='icon-send text-cyan'></text>
+            <text class='text-grey'>酒店订单</text>
         </navigator>
     </view>
     <!-- <view class="cu-item arrow">

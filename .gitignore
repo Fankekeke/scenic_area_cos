@@ -2,6 +2,7 @@ backend/.idea/
 backend/febs_shiro_jwt.iml
 backend/target/
 backend/log/
+/backend/src/main/java/cc/mrbird/febs/cos
 
 frontend/.DS_Store
 frontend/node_modules
@@ -12,6 +13,10 @@ frontend/yarn-error.log*
 frontend/test/unit/coverage
 frontend/test/e2e/reports
 frontend/selenium-debug.log
+
+frontend/src/views/manage
+frontend/index.html
+frontend/package.json
 
 # Editor directories and files
 frontend/.idea

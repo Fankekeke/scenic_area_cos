@@ -5,7 +5,11 @@
     "pages/auth/auth",
     "pages/home/gscenic/index",
     "pages/home/pscenic/index",
-    "pages/home/groom/index"
+    "pages/home/groom/index",
+    "pages/order/details/index",
+    "pages/order/index/index",
+    "pages/sorder/details/index",
+    "pages/sorder/index/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",
