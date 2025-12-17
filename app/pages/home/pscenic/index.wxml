@@ -54,7 +54,7 @@
     </view>
 
     <!-- 购票按钮 -->
-    <button class="cu-btn block bg-gradual-green radius shadow-blur margin-top lg">
+    <button class="cu-btn block bg-gradual-green radius shadow-blur margin-top lg" bindtap="onPurchase">
         立即购买
     </button>
 </view>

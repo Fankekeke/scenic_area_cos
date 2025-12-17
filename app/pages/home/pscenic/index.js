@@ -21,7 +21,7 @@ Page({
 			this.setData({
 				weatherList: r.data.data.forecast.slice(0, 5)
 			})
-			this.queryScenicContent()
+			// this.queryScenicContent()
 		})
 	},
 	queryScenicContent() {
@@ -140,5 +140,40 @@ Page({
 				icon: 'none'
 			});
 		});
-	}
+	},
+	onPurchase: function() {
+		wx.getStorage({
+		  key: 'userInfo',
+		  success: (res) => {
+			  const that = this;
+			  const scenicInfo = this.data.scenicInfo;
+			  const quantity = this.data.quantity;
+
+			  // 检查是否登录（根据实际业务需求）
+			  // 如果未登录，可跳转到登录页面
+
+			  // 调用购买API或跳转到订单确认页面
+			  wx.navigateTo({
+				  url: `/pages/scar/sorder/index?scenicId=${scenicInfo.id}&quantity=${quantity}&unitPrice=${scenicInfo.scenicPrice}`,
+				  success: function(res) {
+					  console.log('跳转到订单确认页面成功');
+				  },
+				  fail: function(err) {
+					  console.error('跳转失败', err);
+					  wx.showToast({
+						  title: '操作失败',
+						  icon: 'none'
+					  });
+				  }
+			  });
+		  },
+		  fail: res => {
+		    wx.showToast({
+		      title: '请先进行登录',
+		      icon: 'none',
+		      duration: 2000
+		    })
+		  }
+		})
+	},
 });

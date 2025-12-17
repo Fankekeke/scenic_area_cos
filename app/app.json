@@ -9,7 +9,9 @@
     "pages/order/details/index",
     "pages/order/index/index",
     "pages/sorder/details/index",
-    "pages/sorder/index/index"
+    "pages/sorder/index/index",
+    "pages/scar/sorder/index",
+    "pages/scar/order/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",
