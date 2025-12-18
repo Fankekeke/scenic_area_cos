@@ -25,6 +25,14 @@ public interface ScenicOrderMapper extends BaseMapper<ScenicOrder> {
     IPage<LinkedHashMap<String, Object>> scenicInfoByPage(Page page, @Param("scenicOrder") ScenicOrder scenicOrder);
 
     /**
+     * 获取用户订单信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> getScenicOrderByUserId(@Param("userId") Integer userId);
+
+    /**
      * 本月订单信息
      *
      * @return 结果

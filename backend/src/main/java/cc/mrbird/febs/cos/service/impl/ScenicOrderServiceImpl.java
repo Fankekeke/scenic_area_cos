@@ -50,6 +50,17 @@ public class ScenicOrderServiceImpl extends ServiceImpl<ScenicOrderMapper, Sceni
     }
 
     /**
+     * 获取用户订单信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> getScenicOrderByUserId(Integer userId) {
+        return baseMapper.getScenicOrderByUserId(userId);
+    }
+
+    /**
      * 查询本月景点流量排行榜
      *
      * @param date 统计日期

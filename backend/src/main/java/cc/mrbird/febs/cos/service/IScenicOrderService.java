@@ -24,6 +24,14 @@ public interface IScenicOrderService extends IService<ScenicOrder> {
     IPage<LinkedHashMap<String, Object>> scenicInfoByPage(Page page, ScenicOrder scenicOrder);
 
     /**
+     * 获取用户订单信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> getScenicOrderByUserId(Integer userId);
+
+    /**
      * 查询本月景点流量排行榜
      *
      * @param date 统计日期

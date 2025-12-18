@@ -6,7 +6,7 @@ Page({
         CustomBar: app.globalData.CustomBar,
         TabbarBot: app.globalData.tabbar_bottom,
         TabCur: 0, scrollLeft: 0,
-        SortMenu: [{ id: 0, name: "全部订单" }, { id: 1, name: "待入住" }, { id: 2, name: "已入住" }],
+        SortMenu: [{ id: 0, name: "全部订单" }, { id: 1, name: "未使用" }, { id: 2, name: "已销票" }],
         userInfo: null,
         orderListCopy: [],
         orderList: [],
@@ -33,10 +33,9 @@ Page({
         })
     },
     getOrderByUserId(userId) {
-        http.get('getOrderByUserId', { userId }).then((r) => {
+        http.get('getScenicOrderByUserId', { userId }).then((r) => {
             r.data.forEach(item => {
                 item.image = item.images.split(',')[0],
-                item.hotelImage = item.hotelImages.split(',')[0],
                 item.days = this.timeFormat(item.createDate)
             });
             this.setData({
@@ -135,10 +134,9 @@ Page({
         }
     },
     getOrderListByUserId(userId) {
-        http.get('getOrderByUserId', { userId }).then((r) => {
+        http.get('getScenicOrderByUserId', { userId }).then((r) => {
             r.data.forEach(item => {
                 item.image = item.images.split(',')[0],
-                item.hotelImage = item.hotelImages.split(',')[0],
                 item.days = this.timeFormat(item.createDate)
             });
             this.setData({
@@ -161,7 +159,7 @@ Page({
         if (e.currentTarget.dataset.id == 1) {
             let orderList = []
             this.data.orderListCopy.forEach(item => {
-                if (item.orderStatus == 0) {
+                if (item.orderStatus == 1) {
                     orderList.push(item)
                 }
             });
@@ -172,7 +170,7 @@ Page({
         if (e.currentTarget.dataset.id == 2) {
             let orderList = []
             this.data.orderListCopy.forEach(item => {
-                if (item.orderStatus == 1) {
+                if (item.orderStatus == 2) {
                     orderList.push(item)
                 }
             });
