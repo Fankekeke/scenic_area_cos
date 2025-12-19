@@ -33,6 +33,14 @@ public interface ScenicOrderMapper extends BaseMapper<ScenicOrder> {
     List<LinkedHashMap<String, Object>> getScenicOrderByUserId(@Param("userId") Integer userId);
 
     /**
+     * 查询订单详情
+     *
+     * @param orderId 订单ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> queryScenicOrderDetail(@Param("orderId") Integer orderId);
+
+    /**
      * 本月订单信息
      *
      * @return 结果

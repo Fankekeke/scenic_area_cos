@@ -71,7 +71,7 @@ Page({
     evaluationSubmit: function (e) {
         let that = this
         if (this.data.remarks != '') {
-            http.post('evaluationAdd', { orderId: this.data.orderId, score: this.data.value, content: this.data.remarks, userId: this.data.userInfo.id }).then((r) => {
+            http.post('evaluationAdd', { orderId: this.data.orderId, score: this.data.value, content: this.data.remarks, userId: this.data.userInfo.id, type: 1 }).then((r) => {
                 that.setData({
                     show: false
                 })

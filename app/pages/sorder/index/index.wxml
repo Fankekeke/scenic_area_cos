@@ -24,7 +24,7 @@
                 {{ item.orderStatus == 1 ? '待使用' : '已使用' }}
             </text>
         </view>
-        <navigator open-type="navigate" hover-class='none' style="padding: 10px 20px">
+        <navigator open-type="navigate" hover-class='none' url="/pages/sorder/details/index?orderId={{item.id}}" style="padding: 10px 20px">
             <view class="cu-list menu menu-avatar">
                 <view class="cu-item">
                     <view class="cu-avatar radius lg" style="background-image:url({{ item.webImg }});"></view>
@@ -49,17 +49,16 @@
                 合计：<text class="text-price text-bold text-lg">¥{{ item.scenicPrice * item.amount }}</text>
             </view>
         </view>
-        <view class="grid col-4 flex justify-end order-btn-box padding solid-top">
+        <view class="grid flex justify-end order-btn-box padding solid-top">
             <text wx:if="{{ item.evaluationStatus != null }}" class="text-right text-orange text-sm self-center">
                 {{ item.evaluationContent }}
             </text>
             <view class='margin-left-sm' wx:if="{{ item.orderStatus == 1}}">
-                <button class='cu-btn round line-red shadow sm' bindtap="chargebacks">
-                    <text class="icon-refund"></text>
+                <button class='cu-btn round line-red shadow sm' bindtap="chargebacks" data-index="{{item.id}}">
                     退 单
                 </button>
             </view>
-            <view class='margin-left-sm' wx:if="{{ item.evaluationStatus == null && item.orderStatus == 2}}">
+            <view class='margin-left-sm' wx:if="{{ item.evaluationStatus == null && item.orderStatus == 2}}" data-index="{{item.id}}">
                 <button class='cu-btn round line-blue shadow sm' bindtap="evaluation">
                     评 价
                 </button>

@@ -4,6 +4,7 @@ import cc.mrbird.febs.cos.entity.OrderInfo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,6 +21,14 @@ public interface IOrderInfoService extends IService<OrderInfo> {
      * @return
      */
     IPage<LinkedHashMap<String, Object>> orderInfoByPage(Page page, OrderInfo orderInfo);
+
+    /**
+     * 获取酒店订单详情
+     *
+     * @param orderId
+     * @return
+     */
+    LinkedHashMap<String, Object> queryHotelOrderDetail(Integer orderId);
 
     /**
      * 主页信息

@@ -60,6 +60,41 @@
         </if>
     </select>
 
+    <!-- 获取酒店订单详情 -->
+    <select id="queryHotelOrderDetail" resultType="java.util.LinkedHashMap">
+        SELECT oi.id,
+               oi.code,
+               oi.price,
+               oi.day_num      AS dayNum,
+               oi.start_date   AS startDate,
+               oi.end_date     AS endDate,
+               oi.order_status AS orderStatus,
+               oi.create_date  AS createDate,
+               ui.id           AS userId,
+               ui.name         AS userName,
+               ui.avatar,
+               rt.name,
+               rt.images,
+               rt.area,
+               rt.content,
+               hi.name         AS hotelName,
+               hi.address,
+               hi.tag,
+               hi.content,
+               hi.point,
+               hi.policy,
+               hi.check_in     AS checkIn,
+               eva.id          AS flag
+        FROM order_info oi
+                 LEFT JOIN user_info ui ON (ui.id = oi.user_id)
+                 LEFT JOIN room_type rt ON (rt.id = oi.type_id)
+                 LEFT JOIN hotel_info hi ON (hi.id = oi.hotel_id)
+                 LEFT JOIN evaluation eva On (eva.order_id = oi.id)
+        WHERE 1 = 1
+          AND oi.del_flag = 0
+          AND oi.id = #{orderId}
+    </select>
+
     <!-- 根据酒店ID获取统计信息 -->
     <select id="orderInfoByHotelId" resultType="java.util.LinkedHashMap">
         SELECT on1.num, on2.price, on3.roomNum FROM (SELECT IFNULL(count(1),0) AS num FROM order_info oi

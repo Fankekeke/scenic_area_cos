@@ -50,7 +50,7 @@ Page({
     },
     chargebacks: function (e) {
         let orderId = e.currentTarget.dataset['index']
-        http.get('delOrder', { orderId }).then((r) => {
+        http.get('delScenicOrder', { orderId }).then((r) => {
             wx.showToast({
                 title: '退单成功',
                 icon: 'success',
@@ -70,7 +70,7 @@ Page({
     evaluationSubmit: function (e) {
         let that = this
         if (this.data.remarks != '') {
-            http.post('evaluationAdd', { orderId: this.data.orderId, score: this.data.value, content: this.data.remarks, userId: this.data.userInfo.id }).then((r) => {
+            http.post('evaluationAdd', { orderId: this.data.orderId, score: this.data.value, content: this.data.remarks, userId: this.data.userInfo.id, type: 2 }).then((r) => {
                 that.setData({
                     show: false
                 })

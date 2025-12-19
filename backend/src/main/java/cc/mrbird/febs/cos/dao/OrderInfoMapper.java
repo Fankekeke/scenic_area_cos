@@ -26,6 +26,14 @@ public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
     IPage<LinkedHashMap<String, Object>> orderInfoByPage(Page page, @Param("orderInfo") OrderInfo orderInfo);
 
     /**
+     * 获取酒店订单详情
+     *
+     * @param orderId
+     * @return
+     */
+    LinkedHashMap<String, Object> queryHotelOrderDetail(@Param("orderId") Integer orderId);
+
+    /**
      * 根据酒店ID获取统计信息
      *
      * @param hotelId

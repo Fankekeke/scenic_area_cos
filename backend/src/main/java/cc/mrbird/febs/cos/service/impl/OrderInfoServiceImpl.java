@@ -34,6 +34,17 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return baseMapper.orderInfoByPage(page, orderInfo);
     }
 
+    /**
+     * 获取酒店订单详情
+     *
+     * @param orderId
+     * @return
+     */
+    @Override
+    public LinkedHashMap<String, Object> queryHotelOrderDetail(Integer orderId) {
+        return baseMapper.queryHotelOrderDetail(orderId);
+    }
+
     @Override
     public LinkedHashMap<String, Object> home(Integer type, Integer userId) {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();

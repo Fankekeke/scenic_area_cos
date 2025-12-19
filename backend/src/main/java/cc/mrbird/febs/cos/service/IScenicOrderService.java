@@ -32,6 +32,14 @@ public interface IScenicOrderService extends IService<ScenicOrder> {
     List<LinkedHashMap<String, Object>> getScenicOrderByUserId(Integer userId);
 
     /**
+     * 查询订单详情
+     *
+     * @param orderId 订单ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> queryScenicOrderDetail(Integer orderId);
+
+    /**
      * 查询本月景点流量排行榜
      *
      * @param date 统计日期
