@@ -6,6 +6,19 @@ Page({
 		CustomBar: app.globalData.CustomBar,
 		hidden: true,
 		current: 0, lines: 0,
+		markers: [{
+			id: 0,
+			latitude: 30.63903,
+			longitude: 104.201457,
+			name: '青龙湖景区',
+			address: '四川省成都市xxx区xxx路xxx号',
+			width: 30,
+			height: 30,
+			callout: {
+				content: '青龙湖',
+				display: 'ALWAYS'
+			}
+		}],
 		swiperlist: [{
 			id: 0,
 			url: 'https://dimg04.c-ctrip.com/images/0104z120008oupno07351_C_880_350.jpg',
@@ -78,6 +91,18 @@ Page({
 		// });
 		this.home()
 		this.getPostInfo()
+	},
+	navigateToScenic() {
+		const scenicLocation = this.data.markers[0];
+
+		// 使用微信小程序内置地图导航
+		wx.openLocation({
+			latitude: scenicLocation.latitude,
+			longitude: scenicLocation.longitude,
+			name: scenicLocation.name || '景区位置',
+			address: scenicLocation.address || '',
+			scale: 16
+		});
 	},
 	getPostInfo() {
 		http.get('getPostList').then((r) => {

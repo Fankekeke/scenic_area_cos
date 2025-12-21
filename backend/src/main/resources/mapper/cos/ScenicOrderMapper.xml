@@ -99,6 +99,7 @@
             so.code,
             so.price,
             so.amount,
+            so.qr_code AS qrCode,
             so.order_status AS orderStatus,
             so.create_date AS createDate,
             so.update_date AS updateDate,

@@ -20,7 +20,7 @@
             <text class="icon-shop text-lg text-blue"></text>
             <text class="text-bold margin-left-xs">{{ item.scenicName }}</text>
             <text class="icon-right text-gray"></text>
-            <text class="text-right text-{{ item.orderStatus == 0 ? 'red' : 'green' }} canui-text-right text-sm">
+            <text class="text-right text-{{ item.orderStatus == 0 ? 'red' : 'green' }} canui-text-right text-sm" style="line-height: 7px">
                 {{ item.orderStatus == 1 ? '待使用' : '已使用' }}
             </text>
         </view>
@@ -43,7 +43,8 @@
         </navigator>
         <view class="order-price-box padding solid-top flex justify-between align-center">
             <view class="text-gray text-sm">
-                共{{ item.amount }}张
+                {{ item.createDate }}
+
             </view>
             <view class="text-right">
                 合计：<text class="text-price text-bold text-lg">¥{{ item.scenicPrice * item.amount }}</text>

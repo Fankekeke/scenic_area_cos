@@ -47,6 +47,20 @@
     </block>
 </view>
 
+<view class="bg-white" style="padding:0 30rpx;padding-bottom: 20rpx;">
+    <map id="myMap"
+         markers="{{markers}}"
+         style="width:100%;height:200px;"
+         longitude="{{markers[0].longitude}}"
+         latitude="{{markers[0].latitude}}" scale='16'>
+    </map>
+    <view class="flex justify-center margin-top">
+        <button class="cu-btn bg-blue round" bindtap="navigateToScenic">
+            <text class="icon-locationfill margin-right-xs"></text>导航
+        </button>
+    </view>
+</view>
+
 <!--视频区域-->
 <!-- <video class="canui-video shadow-warp bg-white" src="{{videosrc}}"></video> -->
 

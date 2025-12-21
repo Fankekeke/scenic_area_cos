@@ -71,6 +71,8 @@ public class ScenicOrder implements Serializable {
      */
     private Integer delFlag;
 
+    private String qrCode;
+
     @TableField(exist = false)
     private String userName;
 

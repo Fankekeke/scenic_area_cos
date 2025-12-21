@@ -179,3 +179,15 @@ page {
 .order-btn-box .margin-tb-sm + .margin-tb-sm{
     margin-left: 10rpx;
 }
+.qr-code-container {
+    padding: 20rpx;
+    background-color: #f8f8f8;
+    border-radius: 16rpx;
+    display: inline-block;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.qr-code-image {
+    width: 280rpx;
+    height: 280rpx;
+}

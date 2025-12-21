@@ -21,14 +21,6 @@
                 <a-input v-model="queryParams.code"/>
               </a-form-item>
             </a-col>
-            <a-col :md="6" :sm="24">
-              <a-form-item
-                label="邮箱地址"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
-                <a-input v-model="queryParams.address"/>
-              </a-form-item>
-            </a-col>
           </div>
           <span style="float: right; margin-top: 3px;">
             <a-button type="primary" @click="search">查询</a-button>
@@ -131,7 +123,7 @@ export default {
             case '1':
               return <a-tag color="green">正常</a-tag>
             default:
-              return '- -'
+              return <a-tag color="green">正常</a-tag>
           }
         }
       }, {
@@ -141,40 +133,20 @@ export default {
         title: '用户昵称',
         dataIndex: 'name'
       }, {
-        title: '邮箱地址',
-        dataIndex: 'email',
-        customRender: (text, row, index) => {
-          if (text !== null) {
-            return text
-          } else {
-            return '- -'
-          }
-        }
-      }, {
         title: '头像',
-        dataIndex: 'avatar',
+        dataIndex: 'images',
         customRender: (text, record, index) => {
-          if (!record.avatar) return <a-avatar shape="square" icon="user" />
+          if (!record.images) return <a-avatar shape="square" icon="user" />
           return <a-popover>
             <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.avatar } />
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
             </template>
-            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.avatar } />
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
           </a-popover>
-        }
-      }, {
-        title: '用户类型',
-        dataIndex: 'type',
-        customRender: (text, row, index) => {
-          return <a-tag>普通用户</a-tag>
         }
       }, {
         title: '创建时间',
         dataIndex: 'createDate'
-      }, {
-        title: '操作',
-        dataIndex: 'operation',
-        scopedSlots: {customRender: 'operation'}
       }]
     }
   },

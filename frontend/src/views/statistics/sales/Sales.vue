@@ -1,15 +1,15 @@
 <template>
   <div class="sales-prediction-container">
-    <a-select
-      v-model="selectedDrugId" style="width: 300px"
-      placeholder="请选择景点"
-      show-search
-      :filter-option="false"
-      :loading="searchLoading"
-      :options="filteredDrugOptions.map(item => ({ label: item.scenicName, value: item.id }))"
-      @search="handleSearch"
-      @change="onDrugChange"
-    />
+<!--    <a-select-->
+<!--      v-model="selectedDrugId" style="width: 300px"-->
+<!--      placeholder="请选择景点"-->
+<!--      show-search-->
+<!--      :filter-option="false"-->
+<!--      :loading="searchLoading"-->
+<!--      :options="filteredDrugOptions.map(item => ({ label: item.scenicName, value: item.id }))"-->
+<!--      @search="handleSearch"-->
+<!--      @change="onDrugChange"-->
+<!--    />-->
 
     <!-- 预测图表区域 -->
     <div class="chart-container">
@@ -90,6 +90,7 @@ export default {
   },
   mounted () {
     this.initChart() // 先初始化图表
+    this.onDrugChange()
   },
   methods: {
     handleSearch (value) {
@@ -134,7 +135,7 @@ export default {
       })
     },
     onDrugChange (value) {
-      this.$get('/cos/prediction/sales', {scenicId: value}).then((r) => {
+      this.$get('/cos/prediction/sales', {scenicId: 1}).then((r) => {
         this.predictionData = r.data.data
         this.updateChart()
       })

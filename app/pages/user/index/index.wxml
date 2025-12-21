@@ -13,7 +13,7 @@
 <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg">
     <view class="cu-item arrow">
         <navigator class='content' open-type="navigate" hover-class='none' url="/pages/sorder/index/index">
-            <text class='icon-send text-cyan'></text>
+            <text class='icon-card text-cyan'></text>
             <text class='text-grey'>景区订单</text>
         </navigator>
     </view>
@@ -36,8 +36,8 @@
         </navigator>
     </view>
     <view class="cu-item arrow">
-        <navigator class='content' open-type="navigate" hover-class='none' url="/pages/order/index/index">
-            <text class='icon-send text-cyan'></text>
+        <navigator class='content' open-type="navigate" hover-class='none' url="/pages/shop/chat/index">
+            <text class='icon-message text-cyan'></text>
             <text class='text-grey'>青龙帮</text>
         </navigator>
     </view>

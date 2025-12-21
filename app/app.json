@@ -11,7 +11,8 @@
     "pages/sorder/details/index",
     "pages/sorder/index/index",
     "pages/scar/sorder/index",
-    "pages/scar/order/index"
+    "pages/scar/order/index",
+    "pages/shop/chat/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",

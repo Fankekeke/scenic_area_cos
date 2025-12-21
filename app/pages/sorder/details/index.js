@@ -19,6 +19,6 @@ Page({
                 orderInfo: r.data
             })
         })
-    }
+    },
 
 });

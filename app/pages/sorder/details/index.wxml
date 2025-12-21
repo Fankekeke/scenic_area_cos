@@ -61,6 +61,23 @@
         </view>
     </view>
 
+    <view class="margin-top bg-white order-details-log padding" style="padding: 15px">
+        <view class="text-center text-lg text-bold margin-bottom">订单二维码核销</view>
+        <view class="flex justify-center">
+            <view class="qr-code-container">
+                <image
+                        src="http://127.0.0.1:9527/imagesWeb/{{orderInfo.qrCode}}"
+                        mode="widthFix"
+                        class="qr-code-image"
+                        show-menu-by-longpress="true"
+                ></image>
+            </view>
+        </view>
+        <view class="text-center text-gray text-sm margin-top">
+            长按二维码保存或识别
+        </view>
+    </view>
+
 </view>
 
 
