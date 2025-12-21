@@ -61,7 +61,7 @@
             :data-source="replyList"
           >
             <a-list-item slot="renderItem" slot-scope="item, index">
-              <a-comment :author="item.author" :avatar="'http://127.0.0.1:9527/imagesWeb/' + item.avatar">
+              <a-comment :author="item.author" :avatar="'http://127.0.0.1:9527/imagesWeb/' + item.userImages">
                 <template slot="actions">
                   <span v-for="(action, index) in item.actions" :key="index">{{ action }}</span>
                 </template>
@@ -135,7 +135,7 @@ export default {
       this.$get('/cos/post-info/reply', {postId: this.postData.id}).then((r) => {
         let replyList = []
         r.data.data.forEach(item => {
-          replyList.push({author: item.userName, avatar: item.avatar, content: item.content, datetime: moment(item.createDate)})
+          replyList.push({author: item.userName, userImages: item.userImages, content: item.content, datetime: moment(item.createDate)})
         })
         this.replyList = replyList
         console.log(JSON.stringify(this.replyList))

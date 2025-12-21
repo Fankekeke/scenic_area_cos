@@ -10,6 +10,7 @@
         ri.user_id AS userId,
         ri.content,
         ri.create_date AS createDate,
+        ui.images,
         ui.avatar,
         ui.name AS userName,
         pi.title

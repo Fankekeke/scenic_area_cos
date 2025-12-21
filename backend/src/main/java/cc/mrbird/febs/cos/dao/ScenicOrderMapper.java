@@ -41,6 +41,14 @@ public interface ScenicOrderMapper extends BaseMapper<ScenicOrder> {
     LinkedHashMap<String, Object> queryScenicOrderDetail(@Param("orderId") Integer orderId);
 
     /**
+     * 查询订单详情
+     *
+     * @param orderCode 订单ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> queryScenicOrderDetailByCode(@Param("orderCode") String orderCode);
+
+    /**
      * 本月订单信息
      *
      * @return 结果

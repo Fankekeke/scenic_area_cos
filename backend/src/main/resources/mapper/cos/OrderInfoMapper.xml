@@ -15,6 +15,7 @@
         oi.create_date AS createDate,
         ui.id AS userId,
         ui.name AS userName,
+        ui.images AS userImages,
         ui.avatar,
         rt.name,
         rt.images,

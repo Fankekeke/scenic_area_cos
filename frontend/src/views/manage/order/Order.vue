@@ -146,14 +146,14 @@ export default {
         dataIndex: 'userName'
       }, {
         title: '头像',
-        dataIndex: 'avatar',
+        dataIndex: 'userImages',
         customRender: (text, record, index) => {
-          if (!record.avatar) return <a-avatar shape="square" icon="user" />
+          if (!record.userImages) return <a-avatar shape="square" icon="user" />
           return <a-popover>
             <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ record.avatar } />
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.userImages } />
             </template>
-            <a-avatar shape="square" icon="user" src={ record.avatar } />
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.userImages } />
           </a-popover>
         }
       }, {

@@ -72,6 +72,17 @@ public class ScenicOrderServiceImpl extends ServiceImpl<ScenicOrderMapper, Sceni
     }
 
     /**
+     * 查询订单详情
+     *
+     * @param orderCode 订单ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> queryScenicOrderDetailByCode(String orderCode) {
+        return baseMapper.queryScenicOrderDetailByCode(orderCode);
+    }
+
+    /**
      * 查询本月景点流量排行榜
      *
      * @param date 统计日期

@@ -11,6 +11,7 @@
         pi.images,
         pi.create_date AS createDate,
         ui.name AS userName,
+        ui.images AS userImages,
         ui.avatar
         FROM
         post_info pi
@@ -40,6 +41,7 @@
         ri.content,
         ri.create_date AS createDate,
         ui.name AS userName,
+        ui.images AS userImages,
         ui.avatar
         FROM
         reply_info ri
@@ -60,6 +62,7 @@
         pi.images,
         pi.create_date AS createDate,
         ui.name AS userName,
+        ui.images AS userImages,
         ui.avatar,
         COUNT(ri.post_id) replyNum
         FROM

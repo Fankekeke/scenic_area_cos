@@ -150,24 +150,23 @@ export default {
           }
         }
       }, {
-        title: '景点图片',
-        dataIndex: 'webImg',
-        scopedSlots: {customRender: 'webImg'},
-        customRender: (text, record, index) => {
-          if (!record.webImg) return <a-avatar shape="square" icon="user"/>
-          return <a-popover>
-            <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={record.webImg}/>
-            </template>
-            <a-avatar shape="square" icon="user" src={record.webImg}/>
-          </a-popover>
-        }
-      }, {
         title: '订单编号',
         dataIndex: 'code'
       }, {
         title: '用户名称',
         dataIndex: 'userName'
+      }, {
+        title: '头像',
+        dataIndex: 'userImages',
+        customRender: (text, record, index) => {
+          if (!record.userImages) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.userImages } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.userImages } />
+          </a-popover>
+        }
       }, {
         title: '门票价格',
         dataIndex: 'price',

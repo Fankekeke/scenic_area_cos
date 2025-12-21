@@ -13,6 +13,7 @@
         oi.price,
         oi.day_num AS dayNum,
         ui.name AS userName,
+        ui.images,
         ui.avatar,
         rt.name,
         hi.name AS hotelName
@@ -57,6 +58,7 @@
         oi.amount,
         ui.name AS userName,
         ui.avatar,
+        ui.images,
         si.scenic_name AS scenicName
         FROM
         evaluation eva
@@ -92,6 +94,7 @@
         oi.amount,
         ui.name AS userName,
         ui.avatar,
+        ui.images,
         si.scenic_name AS scenicName
         FROM
         evaluation eva
@@ -113,6 +116,7 @@
         eva.create_date,
         eva.score,
         ui.avatar,
+        ui.images,
         ui.name
         FROM
         evaluation eva
@@ -129,6 +133,7 @@
             eva.content,
             eva.create_date,
             ui.avatar,
+            ui.images,
             ui.name AS userName
         FROM
             evaluation eva
